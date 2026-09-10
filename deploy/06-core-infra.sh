@@ -27,6 +27,16 @@ kubectl delete deployment mysql postgres vault --ignore-not-found
 kubectl delete svc mysql-db postgres-db vault-server --ignore-not-found
 kubectl delete pvc mysql-data postgres-data --ignore-not-found
 
+# Hardening (added 2026-09-11): the delete above removes ANY Service named postgres-db, with no
+# way to tell "the old in-cluster Postgres's Service" (what it's meant to clean up) apart from the
+# ExternalName replacement below, which prod's ConfigMap profile still depends on (qa's profile
+# was already migrated to the direct RDS endpoint, but re-applying THAT fix from a stale/untracked
+# copy of this ConfigMap is what actually caused a real outage on 2026-09-11 — not this script).
+# Re-creating postgres-db right here means a re-run of this script can no longer silently strand
+# prod without it. See postgres-db-external.yaml's own header comment for the full story.
+log "Recreating postgres-db as an ExternalName Service pointing at RDS (see postgres-db-external.yaml)"
+kubectl apply -f "${DEPLOYMENTS}/postgres-db-external.yaml"
+
 log "Making Artifactory reachable at localhost:8082 on the host (needed by 07/09's --network=host docker builds)"
 kubectl patch svc jfrog-artifactory -p '{"spec":{"type":"LoadBalancer"}}'
 kubectl get svc jfrog-artifactory

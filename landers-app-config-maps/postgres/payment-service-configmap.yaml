@@ -86,6 +86,11 @@ data:
     media:
       upload:
         base-path: uploads/payment
+    # Paymob's unified Intention API host — same host for test and live mode (that distinction is
+    # made by which API key/integration id PAYMOB.* secrets hold, not the URL); kept configurable
+    # per-profile in case a country-specific host (e.g. ksa.paymob.com) is ever needed.
+    paymob:
+      base-url: https://accept.paymob.com
 
     # External service URLs
     services:
@@ -186,6 +191,11 @@ data:
     media:
       upload:
         base-path: uploads/payment
+    # Paymob's unified Intention API host — same host for test and live mode (that distinction is
+    # made by which API key/integration id PAYMOB.* secrets hold, not the URL); kept configurable
+    # per-profile in case a country-specific host (e.g. ksa.paymob.com) is ever needed.
+    paymob:
+      base-url: https://accept.paymob.com
 
     # External service URLs
     services:
@@ -289,6 +299,11 @@ data:
     media:
       upload:
         base-path: uploads/payment
+    # Paymob's unified Intention API host — same host for test and live mode (that distinction is
+    # made by which API key/integration id PAYMOB.* secrets hold, not the URL); kept configurable
+    # per-profile in case a country-specific host (e.g. ksa.paymob.com) is ever needed.
+    paymob:
+      base-url: https://accept.paymob.com
 
     # External service URLs
     services:

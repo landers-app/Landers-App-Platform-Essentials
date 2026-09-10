@@ -1,0 +1,29 @@
+# postgres-db — ExternalName Service, an in-cluster DNS shortcut to the real database: AWS RDS
+# instance "landers-db" (landers-db.c52kk2mayopg.eu-west-1.rds.amazonaws.com), NOT anything hosted
+# in this cluster. `prod`'s ConfigMap profile (every service, confirmed via payment-service-
+# configmap.yaml) still connects through it (jdbc:postgresql://postgres-db:5432/...); `qa`'s
+# profile has, at least for payment-service, already been migrated to the RDS endpoint directly
+# (per AWS/EC2_QA_Environment_Setup_Guide.txt Part 9.1) — whether every other service's qa profile
+# has the same migration wasn't individually re-verified here, so don't assume this Service is
+# provably unused by qa; only that prod definitely still needs it.
+#
+# History (2026-09-11): this Service didn't exist when payment-service's first deploy of the
+# session needed a fresh DB connection and failed (Flyway startup migration,
+# UnknownHostException: postgres-db). Root cause turned out to be a bad ConfigMap apply (a stale,
+# untracked duplicate of payment-service-configmap.yaml got applied to the live cluster, reverting
+# its already-migrated qa datasource URL back to postgres-db:5432) — NOT a missing Service; the
+# real fix was correcting and re-applying that ConfigMap. This Service was recreated as part of
+# investigating the incident and is kept as genuine, separate hardening: 06-core-infra.sh's cleanup
+# step (`kubectl delete svc mysql-db postgres-db vault-server --ignore-not-found`) removes ANY
+# Service named postgres-db with no way to distinguish the old in-cluster Postgres's Service (what
+# it's meant to clean up) from this replacement — a re-run of that script, unrelated to this
+# incident's actual cause, could still have stranded prod without it. Wired into that script
+# (applied right after its cleanup step) so a future re-run is self-healing instead.
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-db
+  namespace: default
+spec:
+  type: ExternalName
+  externalName: landers-db.c52kk2mayopg.eu-west-1.rds.amazonaws.com
