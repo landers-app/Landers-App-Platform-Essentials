@@ -96,6 +96,8 @@ data:
         url: http://localhost:7072
       payment-service:
         url: http://localhost:7077
+      corporate-service:
+        url: http://localhost:7074
 
     ---
     # QA Profile
@@ -193,6 +195,8 @@ data:
         url: http://requester-service:7072
       payment-service:
         url: http://payment-service:7077
+      corporate-service:
+        url: http://corporate-service:7074
 
     ---
     # PROD Profile
@@ -293,3 +297,5 @@ data:
         url: http://requester-service:7072
       payment-service:
         url: http://payment-service:7077
+      corporate-service:
+        url: http://corporate-service:7074
