@@ -86,6 +86,14 @@ data:
                   uri: http://localhost:7076
                   predicates:
                     - Path=/api/v1/bookings/**,/api/v1/landings/**,/api/v1/quickstops/**
+                - id: booking-qr-public
+                  uri: http://localhost:7076
+                  predicates:
+                    - Path=/qr/checkin/**
+                - id: landlord-qr-public
+                  uri: http://localhost:7073
+                  predicates:
+                    - Path=/qr/spot/**
                 - id: payment-service
                   uri: http://localhost:7077
                   predicates:
@@ -186,6 +194,14 @@ data:
                   uri: lb://booking-service
                   predicates:
                     - Path=/api/v1/bookings/**,/api/v1/landings/**,/api/v1/quickstops/**
+                - id: booking-qr-public
+                  uri: lb://booking-service
+                  predicates:
+                    - Path=/qr/checkin/**
+                - id: landlord-qr-public
+                  uri: lb://landlord-service
+                  predicates:
+                    - Path=/qr/spot/**
                 - id: payment-service
                   uri: lb://payment-service
                   predicates:
@@ -284,6 +300,14 @@ data:
                   uri: lb://booking-service
                   predicates:
                     - Path=/api/v1/bookings/**,/api/v1/landings/**,/api/v1/quickstops/**
+                - id: booking-qr-public
+                  uri: lb://booking-service
+                  predicates:
+                    - Path=/qr/checkin/**
+                - id: landlord-qr-public
+                  uri: lb://landlord-service
+                  predicates:
+                    - Path=/qr/spot/**
 
 
     keycloak:
