@@ -103,6 +103,11 @@ data:
                   predicates:
                     - Path=/api/v1/notifications/**
 
+    management:
+      health:
+        redis:
+          enabled: false
+
     keycloak:
       auth-server-url: http://localhost:8180
       tokenUrl: http://localhost:8180/realms/landers-realm/protocol/openid-connect/token
@@ -211,6 +216,11 @@ data:
                   predicates:
                     - Path=/api/v1/notifications/**
 
+    management:
+      health:
+        redis:
+          enabled: false
+
     keycloak:
       auth-server-url: http://keycloak:8180
       tokenUrl: http://keycloak:8180/realms/landers-realm/protocol/openid-connect/token
@@ -309,6 +319,11 @@ data:
                   predicates:
                     - Path=/qr/spot/**
 
+
+    management:
+      health:
+        redis:
+          enabled: false
 
     keycloak:
       auth-server-url: http://keycloak:8180
